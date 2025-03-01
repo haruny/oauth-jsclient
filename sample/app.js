@@ -62,6 +62,8 @@ app.get('/authUri', urlencodedParser, function (req, res) {
     scope: [OAuthClient.scopes.Accounting, OAuthClient.scopes.OpenId, OAuthClient.scopes.Profile, OAuthClient.scopes.Email],
     state: 'intuit-test',
   });
+  console.log(authUri);
+  exit(1);
   res.send(authUri);
 });
 
@@ -165,25 +167,4 @@ const server = app.listen(process.env.PORT || 8000, () => {
   }
 });
 
-/**
- * Optional : If NGROK is enabled
- */
-if (ngrok) {
-  console.log('NGROK Enabled');
-  ngrok
-    .connect({ addr: process.env.PORT || 8000 })
-    .then((url) => {
-      redirectUri = `${url}/callback`;
-      console.log(`💳 Step 1 : Paste this URL in your browser :  ${url}`);
-      console.log(
-        '💳 Step 2 : Copy and Paste the clientId and clientSecret from : https://developer.intuit.com',
-      );
-      console.log(`💳 Step 3 : Copy Paste this callback URL into redirectURI :  ${redirectUri}`);
-      console.log(
-        `💻 Step 4 : Make Sure this redirect URI is also listed under the Redirect URIs on your app in : https://developer.intuit.com`,
-      );
-    })
-    .catch(() => {
-      process.exit(1);
-    });
-}
+
